@@ -1,13 +1,13 @@
 package com.ecommerce.aze_ecom.beans;
 
-public class category {
+public class Category {
     private long categoryId;
-    private long categoryName;
+    private String categoryName;
 
-    public category() {
+    public Category() {
     }
 
-    public category(long categoryId, long categoryName) {
+    public Category(long categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
@@ -20,11 +20,11 @@ public class category {
         this.categoryId = categoryId;
     }
 
-    public long getCategoryName() {
+    public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName(long categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 }
