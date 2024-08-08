@@ -3,7 +3,10 @@ package com.ecommerce.aze_ecom.controller;
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.service.Impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,15 @@ public class categoryController {
     }
 
     @DeleteMapping("/api/public/categories/{categoryId}")
-    public String deleteCategory(@PathVariable Long categoryId){
+    public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId){
+        try{
         String status = categoryService.deleteCategory(categoryId);
-        return status;
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
+    catch(ResponseStatusException e){
+            return new ResponseEntity<>(e.getReason(),e.getStatusCode());
+        }
+
+
     }
 }
