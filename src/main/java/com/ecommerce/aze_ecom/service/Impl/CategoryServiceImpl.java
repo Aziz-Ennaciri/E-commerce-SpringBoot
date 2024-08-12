@@ -14,7 +14,6 @@ import java.util.*;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryDao categoryDao;
-    private long nextId = 1L;
     @Override
     public List<Category> getAllCategories() {
         List<Category> categories = categoryDao.findAll();
@@ -28,7 +27,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category savedCategory = categoryDao.findByCategoryName(category.getCategoryName());
         if (savedCategory != null)
             throw new APIException("Category with name" + category.getCategoryName() + "it's already exist");
-        category.setCategoryId(nextId++);
         categoryDao.save(category);
     }
 
