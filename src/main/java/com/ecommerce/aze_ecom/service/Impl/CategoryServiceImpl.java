@@ -2,11 +2,10 @@ package com.ecommerce.aze_ecom.service.Impl;
 
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.dao.CategoryDao;
+import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -28,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String deleteCategory(Long categoryId) {
-        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
                 categoryDao.delete(savedCategory);
         return "the category"+categoryId+"has been deleted";
     }
@@ -36,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category updateCategory(Category category, Long categoryId) {
 //        method 1
-        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
         category.setCategoryId(categoryId);
         savedCategory=categoryDao.save(category);
         return savedCategory;
