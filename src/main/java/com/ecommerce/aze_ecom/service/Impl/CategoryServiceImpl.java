@@ -17,7 +17,10 @@ public class CategoryServiceImpl implements CategoryService {
     private long nextId = 1L;
     @Override
     public List<Category> getAllCategories() {
-        return categoryDao.findAll();
+        List<Category> categories = categoryDao.findAll();
+        if (categories.isEmpty())
+            throw new APIException("there's no category created");
+        return categories;
     }
 
     @Override
