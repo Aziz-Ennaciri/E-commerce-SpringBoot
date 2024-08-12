@@ -2,6 +2,7 @@ package com.ecommerce.aze_ecom.service.Impl;
 
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.dao.CategoryDao;
+import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createCategory(Category category) {
+        Category savedCategory = categoryDao.findByCategoryName(category.getCategoryName());
+        if (savedCategory != null)
+            throw new APIException("Category with name" + category.getCategoryName() + "it's already exist");
         category.setCategoryId(nextId++);
         categoryDao.save(category);
     }
