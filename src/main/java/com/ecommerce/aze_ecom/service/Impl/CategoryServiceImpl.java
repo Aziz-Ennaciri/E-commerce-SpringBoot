@@ -4,6 +4,7 @@ import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.dao.CategoryDao;
 import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
+import com.ecommerce.aze_ecom.mappers.CategoryMapper;
 import com.ecommerce.aze_ecom.playload.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
@@ -17,16 +18,20 @@ import java.util.*;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryDao categoryDao;
+//    @Autowired
+//    private ModelMapper modelMapper;
     @Autowired
-    private ModelMapper modelMapper;
+    private CategoryMapper categoryMapper;
     @Override
     public CategoryResponse getAllCategories() {
         List<Category> categories = categoryDao.findAll();
         if (categories.isEmpty())
-            throw new APIException("there's no category created");
-        List<CategoryDTO> categoryDTO = categories.stream().map(category -> modelMapper.map(category,CategoryDTO.class)).toList();
+            throw new APIException("There's no category created");
+        List<CategoryDTO> categoryDTOs = categories.stream()
+                .map(categoryMapper::toDto)
+                .toList();
         CategoryResponse categoryResponse = new CategoryResponse();
-        categoryResponse.setContent(categoryDTO);
+        categoryResponse.setContent(categoryDTOs);
         return categoryResponse;
     }
 
