@@ -1,6 +1,7 @@
 package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.beans.Category;
+import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Impl.CategoryServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,9 @@ public class categoryController {
 
 
     @GetMapping("/api/public/categories"    )
-    public ResponseEntity<List<Category>> getAllCategories(){
-        return new ResponseEntity<>(categoryService.getAllCategories(),HttpStatus.OK);
+    public ResponseEntity<CategoryResponse> getAllCategories(){
+        CategoryResponse categoryResponse = categoryService.getAllCategories();
+        return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
     }
 
     @PostMapping("/api/public/categories")
