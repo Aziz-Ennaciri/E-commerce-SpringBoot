@@ -47,19 +47,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String deleteCategory(Long categoryId) {
+    public CategoryDTO deleteCategory(Long categoryId) {
         Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
-                categoryDao.delete(savedCategory);
-        return "the category"+categoryId+"has been deleted";
+        CategoryDTO categoryDTO = categoryMapper.toDto(savedCategory);
+        categoryDao.delete(savedCategory);
+        return categoryDTO;
     }
 
     @Override
-    public Category updateCategory(Category category, Long categoryId) {
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO ,Long categoryId) {
 //        method 1
-        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
-        category.setCategoryId(categoryId);
-        savedCategory=categoryDao.save(category);
-        return savedCategory;
+//        Category savedCategory = categoryDao.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category","categoryId",categoryId));
+//        category.setCategoryId(categoryId);
+//        savedCategory=categoryDao.save(category);
+//        return savedCategory;
+        Category existingCategory = categoryDao.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+
+        // Update the existing category's fields with the data from the provided DTO
+        existingCategory.setCategoryName(categoryDTO.getCategoryName());
+
+        // Save the updated category
+        Category updatedCategory = categoryDao.save(existingCategory);
+
+        // Convert the updated entity back to a DTO and return it
+        return categoryMapper.toDto(updatedCategory);
 
 
 

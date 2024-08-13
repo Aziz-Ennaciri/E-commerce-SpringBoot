@@ -1,6 +1,5 @@
 package com.ecommerce.aze_ecom.controller;
 
-import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.playload.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Impl.CategoryServiceImpl;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 public class categoryController {
@@ -32,14 +30,14 @@ public class categoryController {
     }
 
     @PutMapping("/api/public/categories/{categoryId}")
-    public ResponseEntity<String> updateCategory(@RequestBody Category category,@PathVariable Long categoryId){
-            Category savedCategory = categoryService.updateCategory(category,categoryId);
-            return new ResponseEntity<>("category with id"+categoryId, HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO,@PathVariable Long categoryId){
+            CategoryDTO savedCategory = categoryService.updateCategory(categoryDTO,categoryId);
+            return new ResponseEntity<>(savedCategory, HttpStatus.OK);
     }
 
     @DeleteMapping("/api/admin/categories/{categoryId}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId){
-        String status = categoryService.deleteCategory(categoryId);
-        return new ResponseEntity<>(status, HttpStatus.OK);
+    public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long categoryId){
+        CategoryDTO categoryDTO = categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
         }
 }
