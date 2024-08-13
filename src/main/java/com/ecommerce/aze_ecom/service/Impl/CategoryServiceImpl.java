@@ -36,11 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void createCategory(Category category) {
-        Category savedCategory = categoryDao.findByCategoryName(category.getCategoryName());
-        if (savedCategory != null)
-            throw new APIException("Category with name" + category.getCategoryName() + "it's already exist");
-        categoryDao.save(category);
+    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+        Category category = categoryMapper.toEntity(categoryDTO);
+        Category savedCategory = categoryDao.save(category);
+//        Category savedCategory = categoryDao.findByCategoryName(category.getCategoryName());
+//        if (savedCategory != null)
+//            throw new APIException("Category with name" + category.getCategoryName() + "it's already exist");
+//        categoryDao.save(category);
+        return categoryMapper.toDto(savedCategory);
     }
 
     @Override

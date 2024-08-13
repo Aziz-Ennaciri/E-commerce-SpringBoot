@@ -1,6 +1,7 @@
 package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.beans.Category;
+import com.ecommerce.aze_ecom.playload.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Impl.CategoryServiceImpl;
 import jakarta.validation.Valid;
@@ -25,9 +26,9 @@ public class categoryController {
     }
 
     @PostMapping("/api/public/categories")
-    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category){
-        categoryService.createCategory(category);
-        return new ResponseEntity<>("Category have been created",HttpStatus.CREATED);
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
+//        categoryService.createCategory(category);
+        return new ResponseEntity<>(categoryService.createCategory(categoryDTO),HttpStatus.CREATED);
     }
 
     @PutMapping("/api/public/categories/{categoryId}")
