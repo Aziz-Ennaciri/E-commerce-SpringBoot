@@ -7,7 +7,7 @@ import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import java.util.List;
 
 public interface CategoryService {
-    CategoryResponse getAllCategories();
+    CategoryResponse getAllCategories(Integer pageNumber , Integer pageSize);
     CategoryDTO createCategory(CategoryDTO categoryDTO);
     CategoryDTO deleteCategory(Long categoryId);
 

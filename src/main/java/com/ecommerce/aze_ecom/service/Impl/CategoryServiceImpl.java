@@ -10,6 +10,9 @@ import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,8 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
     @Override
-    public CategoryResponse getAllCategories() {
-        List<Category> categories = categoryDao.findAll();
+    public CategoryResponse getAllCategories(Integer pageNumber, Integer pageSize) {
+        Pageable pageableDetails = PageRequest.of(pageNumber,pageSize);
+        Page<Category> categoryPage = categoryDao.findAll(pageableDetails);
+        List<Category> categories = categoryPage.getContent();
         if (categories.isEmpty())
             throw new APIException("There's no category created");
         List<CategoryDTO> categoryDTOs = categories.stream()
