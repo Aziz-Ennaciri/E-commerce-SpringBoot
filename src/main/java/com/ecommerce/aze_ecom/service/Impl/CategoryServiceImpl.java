@@ -8,7 +8,6 @@ import com.ecommerce.aze_ecom.mappers.CategoryMapper;
 import com.ecommerce.aze_ecom.playload.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
