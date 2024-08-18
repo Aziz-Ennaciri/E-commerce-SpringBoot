@@ -44,4 +44,15 @@ public class ProductServiceImpl implements ProductService {
         productResponse.setContent(productDTOS);
         return productResponse;
     }
+
+    @Override
+    public ProductResponse searchByCategory(Long categoryId) {
+        Category category = categoryDao.findById(categoryId).orElseThrow(()->
+                new ResourceNotFoundException("Category","categoryId",categoryId));
+        List<Product> products = productDAO.findByCategoryOrderByPriceAsc(category);
+        List<ProductDTO> productDTOS = products.stream().map(productMapper::toDto).toList();
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
+    }
 }
