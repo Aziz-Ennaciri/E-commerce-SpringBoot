@@ -7,9 +7,12 @@ import com.ecommerce.aze_ecom.dao.ProductDAO;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.ProductMapper;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
+import com.ecommerce.aze_ecom.playload.ProductResponse;
 import com.ecommerce.aze_ecom.service.Interf.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -31,5 +34,14 @@ public class ProductServiceImpl implements ProductService {
         product.setSpecialPrice(specialPrice);
         Product savedProduct = productDAO.save(product);
         return productMapper.toDto(savedProduct);
+    }
+
+    @Override
+    public ProductResponse getAllProducts() {
+        List<Product> products = productDAO.findAll();
+        List<ProductDTO> productDTOS = products.stream().map(productMapper::toDto).toList();
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
     }
 }
