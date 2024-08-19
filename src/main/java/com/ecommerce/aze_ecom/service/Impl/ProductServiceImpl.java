@@ -78,4 +78,13 @@ public class ProductServiceImpl implements ProductService {
         Product savedProduct = productDAO.save(existProduct);
         return productMapper.toDto(savedProduct);
     }
+
+    @Override
+    public ProductDTO deleteProduct(Long productId) {
+        Product existProduct = productDAO.findById(productId).orElseThrow(()->
+                new ResourceNotFoundException("Product","productId",productId));
+        ProductDTO productDTO = productMapper.toDto(existProduct);
+        productDAO.delete(existProduct);
+        return productDTO;
+    }
 }
