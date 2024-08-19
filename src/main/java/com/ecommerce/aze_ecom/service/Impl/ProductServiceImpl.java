@@ -4,6 +4,7 @@ import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.beans.Product;
 import com.ecommerce.aze_ecom.dao.CategoryDao;
 import com.ecommerce.aze_ecom.dao.ProductDAO;
+import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.ProductMapper;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
@@ -40,19 +41,38 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
         Category category = categoryDao.findById(categoryId).orElseThrow(()->
                 new ResourceNotFoundException("Category","categoryId",categoryId));
-        Product product = productMapper.toEntity(productDTO);
-        product.setImage("default image");
-        product.setCategory(category);
-        double specialPrice = product.getPrice() - ((product.getDiscount() * 0.010)*product.getPrice());
-        product.setSpecialPrice(specialPrice);
-        Product savedProduct = productDAO.save(product);
-        return productMapper.toDto(savedProduct);
+
+        boolean isProductNotPresent = true;
+        List<Product> products = category.getProducts();
+
+        for (Product value : products) {
+            if (value.getProductName().equals(productDTO.getProductName())) {
+                isProductNotPresent = false;
+                break;
+            }
+        }
+        if (isProductNotPresent) {
+            Product product = productMapper.toEntity(productDTO);
+            product.setImage("default image");
+            product.setCategory(category);
+            double specialPrice = product.getPrice() - ((product.getDiscount() * 0.010) * product.getPrice());
+            product.setSpecialPrice(specialPrice);
+            Product savedProduct = productDAO.save(product);
+            return productMapper.toDto(savedProduct);
+        }else {
+            throw new APIException("The Product it's already exist");
+        }
     }
 
     @Override
     public ProductResponse getAllProducts() {
         List<Product> products = productDAO.findAll();
         List<ProductDTO> productDTOS = products.stream().map(productMapper::toDto).toList();
+
+        if (products.isEmpty()){
+            throw new APIException("No Products exist");
+        }
+
         ProductResponse productResponse = new ProductResponse();
         productResponse.setContent(productDTOS);
         return productResponse;
