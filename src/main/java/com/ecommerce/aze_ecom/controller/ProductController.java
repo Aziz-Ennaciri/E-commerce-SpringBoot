@@ -1,6 +1,5 @@
 package com.ecommerce.aze_ecom.controller;
 
-import com.ecommerce.aze_ecom.beans.Product;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
 import com.ecommerce.aze_ecom.playload.ProductResponse;
 import com.ecommerce.aze_ecom.service.Interf.ProductService;
@@ -35,14 +34,14 @@ public class ProductController {
     }
 
     @PostMapping("admin/categories/{categoryId}/product")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody Product product , @PathVariable Long categoryId){
-        ProductDTO productDTO=productService.addProduct(categoryId,product);
-        return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO , @PathVariable Long categoryId){
+        ProductDTO savedproductDTO=productService.addProduct(categoryId,productDTO);
+        return new ResponseEntity<>(savedproductDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("admin/products/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody Product product, @PathVariable Long productId){
-        ProductDTO updatedProductDTO = productService.updateProduct(productId,product);
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long productId){
+        ProductDTO updatedProductDTO = productService.updateProduct(productId,productDTO);
         return new ResponseEntity<>(updatedProductDTO,HttpStatus.OK);
     }
 
