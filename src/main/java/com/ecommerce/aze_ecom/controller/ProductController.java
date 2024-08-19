@@ -3,6 +3,7 @@ package com.ecommerce.aze_ecom.controller;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
 import com.ecommerce.aze_ecom.playload.ProductResponse;
 import com.ecommerce.aze_ecom.service.Interf.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +38,13 @@ public class ProductController {
     }
 
     @PostMapping("admin/categories/{categoryId}/product")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO , @PathVariable Long categoryId){
+    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO , @PathVariable Long categoryId){
         ProductDTO savedproductDTO=productService.addProduct(categoryId,productDTO);
         return new ResponseEntity<>(savedproductDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("admin/products/{productId}")
-    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO, @PathVariable Long productId){
+    public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO, @PathVariable Long productId){
         ProductDTO updatedProductDTO = productService.updateProduct(productId,productDTO);
         return new ResponseEntity<>(updatedProductDTO,HttpStatus.OK);
     }
