@@ -1,4 +1,4 @@
-package com.ecommerce.aze_ecom.SecurityJwt;
+package com.ecommerce.aze_ecom.Security.Jwt;
 
 
 public class LoginRequest {
