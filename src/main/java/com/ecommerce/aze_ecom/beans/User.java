@@ -49,6 +49,10 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE},orphanRemoval = true)
+    private Set<Product> products;
+
+
     public User(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
