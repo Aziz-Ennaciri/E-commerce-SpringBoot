@@ -2,8 +2,8 @@ package com.ecommerce.aze_ecom.service.Impl;
 
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.beans.Product;
-import com.ecommerce.aze_ecom.dao.CategoryDao;
-import com.ecommerce.aze_ecom.dao.ProductDAO;
+import com.ecommerce.aze_ecom.repositories.CategoryRepository;
+import com.ecommerce.aze_ecom.repositories.ProductRepository;
 import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.ProductMapper;
@@ -26,9 +26,9 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductDAO productDAO;
+    private ProductRepository productRepository;
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryRepository categoryRepository;
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
-        Category category = categoryDao.findById(categoryId).orElseThrow(()->
+        Category category = categoryRepository.findById(categoryId).orElseThrow(()->
                 new ResourceNotFoundException("Category","categoryId",categoryId));
 
         boolean isProductNotPresent = true;
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
             product.setCategory(category);
             double specialPrice = product.getPrice() - ((product.getDiscount() * 0.010) * product.getPrice());
             product.setSpecialPrice(specialPrice);
-            Product savedProduct = productDAO.save(product);
+            Product savedProduct = productRepository.save(product);
             return productMapper.toDto(savedProduct);
         }else {
             throw new APIException("The Product it's already exist");
@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
                 Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
 
         Pageable pageableDetails = PageRequest.of(pageNumber,pageSize,sortByAndOrder);
-        Page<Product> productPage = productDAO.findAll(pageableDetails);
+        Page<Product> productPage = productRepository.findAll(pageableDetails);
 
         List<Product> products = productPage.getContent();
         List<ProductDTO> productDTOS = products.stream().map(productMapper::toDto).toList();
@@ -87,14 +87,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse searchByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
-        Category category = categoryDao.findById(categoryId).orElseThrow(()->
+        Category category = categoryRepository.findById(categoryId).orElseThrow(()->
                 new ResourceNotFoundException("Category","categoryId",categoryId));
 
         Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")?
                 Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
 
         Pageable pageableDetails = PageRequest.of(pageNumber,pageSize,sortByAndOrder);
-        Page<Product> productPage = productDAO.findByCategoryOrderByPriceAsc(category,pageableDetails);
+        Page<Product> productPage = productRepository.findByCategoryOrderByPriceAsc(category,pageableDetails);
 
         List<Product> products = productPage.getContent();
 
@@ -121,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
                 Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
 
         Pageable pageableDetails = PageRequest.of(pageNumber,pageSize,sortByAndOrder);
-        Page<Product> productPage = productDAO.findByProductNameLikeIgnoreCase('%'+keyword+'%',pageableDetails);
+        Page<Product> productPage = productRepository.findByProductNameLikeIgnoreCase('%'+keyword+'%',pageableDetails);
 
         List<Product> products = productPage.getContent();
 
@@ -143,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(Long productId, ProductDTO productDTO) {
-        Product existProduct = productDAO.findById(productId).orElseThrow(()->
+        Product existProduct = productRepository.findById(productId).orElseThrow(()->
                 new ResourceNotFoundException("Product","productId",productId));
         Product product = productMapper.toEntity(productDTO);
         existProduct.setProductName(product.getProductName());
@@ -152,23 +152,23 @@ public class ProductServiceImpl implements ProductService {
         existProduct.setDiscount(product.getDiscount());
         existProduct.setPrice(product.getPrice());
         existProduct.setSpecialPrice(product.getSpecialPrice());
-        Product savedProduct = productDAO.save(existProduct);
+        Product savedProduct = productRepository.save(existProduct);
         return productMapper.toDto(savedProduct);
     }
 
     @Override
     public ProductDTO deleteProduct(Long productId) {
-        Product existProduct = productDAO.findById(productId).orElseThrow(()->
+        Product existProduct = productRepository.findById(productId).orElseThrow(()->
                 new ResourceNotFoundException("Product","productId",productId));
         ProductDTO productDTO = productMapper.toDto(existProduct);
-        productDAO.delete(existProduct);
+        productRepository.delete(existProduct);
         return productDTO;
     }
 
     @Override
     public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
         // Get the product from DB
-        Product productFromDb = productDAO.findById(productId)
+        Product productFromDb = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
         // Upload image to server
@@ -179,7 +179,7 @@ public class ProductServiceImpl implements ProductService {
         productFromDb.setImage(fileName);
 
         // Save updated product
-        Product updatedProduct = productDAO.save(productFromDb);
+        Product updatedProduct = productRepository.save(productFromDb);
 
         // return DTO after mapping product to DTO
         return productMapper.toDto(updatedProduct);
