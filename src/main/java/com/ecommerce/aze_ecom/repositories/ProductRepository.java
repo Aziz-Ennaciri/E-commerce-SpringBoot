@@ -1,4 +1,4 @@
-package com.ecommerce.aze_ecom.dao;
+package com.ecommerce.aze_ecom.repositories;
 
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.beans.Product;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductDAO extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product,Long> {
     Page<Product> findByCategoryOrderByPriceAsc(Category category, Pageable pageableDetails);
 
     Page<Product> findByProductNameLikeIgnoreCase(String keyword, Pageable pageableDetails);
