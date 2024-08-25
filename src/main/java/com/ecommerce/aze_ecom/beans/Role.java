@@ -1,5 +1,6 @@
 package com.ecommerce.aze_ecom.beans;
 
+
 import com.ecommerce.aze_ecom.Enums.AppRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.ToString;
 @Data
 @Table(name = "roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
@@ -20,7 +22,7 @@ public class Role {
 
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
-    @Column(name = "role_name",length = 20)
+    @Column(length = 20, name = "role_name")
     private AppRole roleName;
 
     public Role(AppRole roleName) {

@@ -1,6 +1,9 @@
 package com.ecommerce.aze_ecom.Security;
 
 import com.ecommerce.aze_ecom.Enums.AppRole;
+import com.ecommerce.aze_ecom.Security.Jwt.AuthEntryPointJwt;
+import com.ecommerce.aze_ecom.Security.Jwt.AuthTokenFilter;
+import com.ecommerce.aze_ecom.Security.SecurityService.UserDetailsServiceImpl;
 import com.ecommerce.aze_ecom.beans.Role;
 import com.ecommerce.aze_ecom.beans.User;
 import com.ecommerce.aze_ecom.repositories.RoleRepository;
@@ -13,9 +16,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,9 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ecommerce.aze_ecom.Security.Jwt.AuthEntryPointJwt;
-import com.ecommerce.aze_ecom.Security.Jwt.AuthTokenFilter;
-import com.ecommerce.aze_ecom.Security.SecurityService.UserDetailsServiceImpl;
+
 
 import java.util.Set;
 

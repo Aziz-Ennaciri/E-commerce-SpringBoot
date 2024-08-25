@@ -47,6 +47,3 @@ public class UserInfoResponse {
         this.roles = roles;
     }
 }
-
-
-
