@@ -8,15 +8,11 @@ import org.springframework.stereotype.Service;
 public class ProductMapper {
 
     public Product toEntity(ProductDTO productDTO) {
-        if (productDTO == null) {
-            return null;
-        }
-
         Product product = new Product();
         product.setProductId(productDTO.getProductId());
         product.setProductName(productDTO.getProductName());
         product.setImage(productDTO.getImage());
-        product.setDescription(productDTO.getDescription()); // Add this line
+        product.setDescription(productDTO.getDescription());
         product.setQuantity(productDTO.getQuantity());
         product.setPrice(productDTO.getPrice());
         product.setDiscount(productDTO.getDiscount());
@@ -25,15 +21,11 @@ public class ProductMapper {
     }
 
     public ProductDTO toDto(Product product) {
-        if (product == null) {
-            return null;
-        }
-
         ProductDTO productDTO = new ProductDTO();
         productDTO.setProductId(product.getProductId());
         productDTO.setProductName(product.getProductName());
         productDTO.setImage(product.getImage());
-        productDTO.setDescription(product.getDescription()); // Add this line
+        productDTO.setDescription(product.getDescription());
         productDTO.setQuantity(product.getQuantity());
         productDTO.setPrice(product.getPrice());
         productDTO.setDiscount(product.getDiscount());
