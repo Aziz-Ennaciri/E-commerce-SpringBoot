@@ -22,7 +22,7 @@ public class CartMapper {
                 .map(this::toProductDTO)
                 .collect(Collectors.toList());
 
-        cartDTO.setProductDTOS(productDTOS);
+        cartDTO.setProductDTOS(productDTOS); // Ensure this field name matches CartDTO
         return cartDTO;
     }
 
