@@ -7,6 +7,7 @@ import com.ecommerce.aze_ecom.beans.Product;
 import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.CartMapper;
+import com.ecommerce.aze_ecom.mappers.ProductMapper;
 import com.ecommerce.aze_ecom.playload.CartDTO;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
 import com.ecommerce.aze_ecom.repositories.CartItemRepository;
@@ -36,6 +37,8 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private CartMapper cartMapper;
+    @Autowired
+    private ProductMapper productMapper;
 
     @Override
     public CartDTO addProductToCart(Long productId, Integer quantity) {
@@ -85,6 +88,24 @@ public class CartServiceImpl implements CartService {
         }
         List<CartDTO> cartDTOS = carts.stream().map(cartMapper::toCartDTO).toList();
         return cartDTOS;
+    }
+
+    @Override
+    public CartDTO getCart(String emailId, Long cartId) {
+        Cart cart = cartRepository.findCartByEmailAndCartId(emailId,cartId);
+        if (cart == null){
+            throw new ResourceNotFoundException("Cart","cardId",cartId);
+        }
+        CartDTO cartDTO = cartMapper.toCartDTO(cart);
+        cart.getCartItems().forEach(
+                c->c.getProduct().setQuantity(c.getQuantity()));
+        List<ProductDTO> productDTOs = cart.getCartItems().stream()
+                .map(cartItem -> productMapper.toDto(cartItem.getProduct()))
+                .collect(Collectors.toList());
+
+        cartDTO.setProductDTOS(productDTOs);
+
+        return cartDTO;
     }
 
     private Cart createCart() {
