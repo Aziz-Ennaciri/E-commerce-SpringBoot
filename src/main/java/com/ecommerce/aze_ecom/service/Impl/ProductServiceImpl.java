@@ -1,7 +1,11 @@
 package com.ecommerce.aze_ecom.service.Impl;
 
+import com.ecommerce.aze_ecom.beans.Cart;
 import com.ecommerce.aze_ecom.beans.Category;
 import com.ecommerce.aze_ecom.beans.Product;
+import com.ecommerce.aze_ecom.mappers.CartMapper;
+import com.ecommerce.aze_ecom.playload.CartDTO;
+import com.ecommerce.aze_ecom.repositories.CartRepository;
 import com.ecommerce.aze_ecom.repositories.CategoryRepository;
 import com.ecommerce.aze_ecom.repositories.ProductRepository;
 import com.ecommerce.aze_ecom.exceptions.APIException;
@@ -9,6 +13,7 @@ import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.ProductMapper;
 import com.ecommerce.aze_ecom.playload.ProductDTO;
 import com.ecommerce.aze_ecom.playload.ProductResponse;
+import com.ecommerce.aze_ecom.service.Interf.CartService;
 import com.ecommerce.aze_ecom.service.Interf.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -36,6 +42,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private FileServiceImpl fileService;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private CartMapper cartMapper;
 
     @Value("${project.image}")
     private String path;
@@ -156,6 +171,23 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setSpecialPrice(product.getSpecialPrice());
         Product updatedProduct = productRepository.save(existingProduct);
+
+        List<Cart> carts = cartRepository.findCartsByProductId(productId);
+
+        List<CartDTO> cartDTOs = carts.stream().map(cart -> {
+            CartDTO cartDTO = cartMapper.toCartDTO(cart);
+
+            List<ProductDTO> products = cart.getCartItems().stream()
+                    .map(p -> productMapper.toDto(p.getProduct())).collect(Collectors.toList());
+
+            cartDTO.setProductDTOS(products);
+
+            return cartDTO;
+
+        }).toList();
+
+        cartDTOs.forEach(cart -> cartService.updateProductInCarts(cart.getCartId(), productId));
+
         return productMapper.toDto(updatedProduct);
     }
 
@@ -163,6 +195,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO deleteProduct(Long productId) {
         Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
                 new ResourceNotFoundException("Product", "productId", productId));
+
+        List<Cart> carts = cartRepository.findCartsByProductId(productId);
+        carts.forEach(cart -> cartService.deleteProductFromCart(cart.getCartId(), productId));
 
         ProductDTO productDTO = productMapper.toDto(existingProduct);
         productRepository.delete(existingProduct);
