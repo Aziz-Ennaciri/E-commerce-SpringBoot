@@ -21,11 +21,10 @@ public class CartMapper {
         cartDTO.setCartId(cart.getCartId());
         cartDTO.setTotalPrice(cart.getTotalPrice());
 
-        // Map the list of CartItems to ProductDTOs
         List<ProductDTO> productDTOs = cart.getCartItems().stream()
                 .map(cartItem -> {
                     ProductDTO productDTO = productMapper.toDto(cartItem.getProduct());
-                    productDTO.setQuantity(cartItem.getQuantity()); // Set the quantity from CartItem
+                    productDTO.setQuantity(cartItem.getQuantity());
                     return productDTO;
                 })
                 .collect(Collectors.toList());
@@ -39,13 +38,12 @@ public class CartMapper {
         cart.setCartId(cartDTO.getCartId());
         cart.setTotalPrice(cartDTO.getTotalPrice());
 
-        // Map the list of ProductDTOs back to CartItems
         List<CartItem> cartItems = cartDTO.getProductDTOS().stream()
                 .map(productDTO -> {
                     CartItem cartItem = new CartItem();
                     cartItem.setProduct(productMapper.toEntity(productDTO));
-                    cartItem.setQuantity(productDTO.getQuantity()); // Set the quantity from ProductDTO
-                    cartItem.setCart(cart); // Ensure the relationship is set
+                    cartItem.setQuantity(productDTO.getQuantity());
+                    cartItem.setCart(cart);
                     return cartItem;
                 })
                 .collect(Collectors.toList());
