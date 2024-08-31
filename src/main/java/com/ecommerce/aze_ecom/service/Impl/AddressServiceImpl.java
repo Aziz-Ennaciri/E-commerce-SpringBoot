@@ -7,6 +7,7 @@ import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.AddressMapper;
 import com.ecommerce.aze_ecom.playload.AddressDTO;
 import com.ecommerce.aze_ecom.repositories.AddressRepository;
+import com.ecommerce.aze_ecom.repositories.UserRepository;
 import com.ecommerce.aze_ecom.service.Interf.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public AddressDTO creatAddress(AddressDTO addressDTO, User user) {
@@ -59,6 +62,25 @@ public class AddressServiceImpl implements AddressService {
         return addresses.stream()
                 .map(addressMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AddressDTO updateAddress(Long addressId, AddressDTO addressDTO) {
+        Address savedAddress = addressRepository.findById(addressId).orElseThrow(()->new ResourceNotFoundException("Address","addressId",addressId));
+
+        savedAddress.setStreet(addressDTO.getStreet());
+        savedAddress.setBuildingName(addressDTO.getBuildingName());
+        savedAddress.setCity(addressDTO.getCity());
+        savedAddress.setState(addressDTO.getState());
+        savedAddress.setCountry(addressDTO.getCountry());
+        savedAddress.setPincode(addressDTO.getPincode());
+
+        Address updatedAddress = addressRepository.save(savedAddress);
+        User user = savedAddress.getUser();
+        user.getAddresses().removeIf(address->address.getAddressId().equals(addressId));
+        user.getAddresses().add(updatedAddress);
+        userRepository.save(user);
+        return addressMapper.toDto(updatedAddress);
     }
 
 }
