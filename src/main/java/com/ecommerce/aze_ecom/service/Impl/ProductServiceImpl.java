@@ -160,36 +160,34 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(Long productId, ProductDTO productDTO) {
-        Product existingProduct = productRepository.findById(productId).orElseThrow(() ->
-                new ResourceNotFoundException("Product", "productId", productId));
+        Product existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-        Product product = productMapper.toEntity(productDTO);
-        existingProduct.setProductName(product.getProductName());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setDiscount(product.getDiscount());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setSpecialPrice(product.getSpecialPrice());
+        existingProduct.setProductName(productDTO.getProductName());
+        existingProduct.setDescription(productDTO.getDescription());
+        existingProduct.setQuantity(productDTO.getQuantity());
+        existingProduct.setDiscount(productDTO.getDiscount());
+        existingProduct.setPrice(productDTO.getPrice());
+        existingProduct.setSpecialPrice(productDTO.getSpecialPrice());
+
         Product updatedProduct = productRepository.save(existingProduct);
 
         List<Cart> carts = cartRepository.findCartsByProductId(productId);
-
-        List<CartDTO> cartDTOs = carts.stream().map(cart -> {
-            CartDTO cartDTO = cartMapper.toCartDTO(cart);
-
-            List<ProductDTO> products = cart.getCartItems().stream()
-                    .map(p -> productMapper.toDto(p.getProduct())).collect(Collectors.toList());
-
-            cartDTO.setProductDTOS(products);
-
-            return cartDTO;
-
-        }).toList();
-
-        cartDTOs.forEach(cart -> cartService.updateProductInCarts(cart.getCartId(), productId));
+        List<CartDTO> cartDTOs = carts.stream()
+                .map(cart -> {
+                    CartDTO cartDTO = cartMapper.toCartDTO(cart);
+                    List<ProductDTO> products = cart.getCartItems().stream()
+                            .map(cartItem -> productMapper.toDto(cartItem.getProduct()))
+                            .collect(Collectors.toList());
+                    cartDTO.setProductDTOS(products);
+                    return cartDTO;
+                })
+                .toList();
+        cartDTOs.forEach(cartDTO -> cartService.updateProductInCarts(cartDTO.getCartId(), productId));
 
         return productMapper.toDto(updatedProduct);
     }
+
 
     @Override
     public ProductDTO deleteProduct(Long productId) {
