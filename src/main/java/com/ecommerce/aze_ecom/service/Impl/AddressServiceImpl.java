@@ -3,6 +3,7 @@ package com.ecommerce.aze_ecom.service.Impl;
 import com.ecommerce.aze_ecom.beans.Address;
 import com.ecommerce.aze_ecom.beans.User;
 import com.ecommerce.aze_ecom.exceptions.APIException;
+import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.AddressMapper;
 import com.ecommerce.aze_ecom.playload.AddressDTO;
 import com.ecommerce.aze_ecom.repositories.AddressRepository;
@@ -41,5 +42,11 @@ public class AddressServiceImpl implements AddressService {
         return addresses.stream()
                 .map(addressMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AddressDTO getAddressById(Long addressId) {
+        Address address = addressRepository.findById(addressId).orElseThrow(()->new ResourceNotFoundException("Address","addressId",addressId));
+        return addressMapper.toDto(address);
     }
 }
