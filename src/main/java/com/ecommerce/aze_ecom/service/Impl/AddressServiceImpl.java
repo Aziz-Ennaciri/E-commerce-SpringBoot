@@ -2,6 +2,7 @@ package com.ecommerce.aze_ecom.service.Impl;
 
 import com.ecommerce.aze_ecom.beans.Address;
 import com.ecommerce.aze_ecom.beans.User;
+import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.mappers.AddressMapper;
 import com.ecommerce.aze_ecom.playload.AddressDTO;
 import com.ecommerce.aze_ecom.repositories.AddressRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -28,5 +30,16 @@ public class AddressServiceImpl implements AddressService {
         address.setUser(user);
         Address savedAddress = addressRepository.save(address);
     return addressMapper.toDto(savedAddress);
+    }
+
+    @Override
+    public List<AddressDTO> getAllAddresses() {
+        List<Address> addresses = addressRepository.findAll();
+        if (addresses.isEmpty()){
+            throw new APIException("No Addresses exists");
+        }
+        return addresses.stream()
+                .map(addressMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
