@@ -27,13 +27,20 @@ public class AddressController {
         return new ResponseEntity<List<AddressDTO>>(addresses, HttpStatus.FOUND);
     }
 
-    @GetMapping("/addresse/{addressId}")
-    public ResponseEntity<AddressDTO> getAddresseById(@PathVariable Long addressId){
+    @GetMapping("/address/{addressId}")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable Long addressId){
         AddressDTO addressDTO = addressService.getAddressById(addressId);
         return new ResponseEntity<AddressDTO>(addressDTO, HttpStatus.FOUND);
     }
 
-    @PostMapping("/addresses")
+    @GetMapping("/user/address")
+    public ResponseEntity<List<AddressDTO>> getUserAddress(){
+        User user = authUtil.loggedInUser();
+        List<AddressDTO> addressDTOS = addressService.getUserAddress(user);
+        return new ResponseEntity<List<AddressDTO>>(addressDTOS, HttpStatus.FOUND);
+    }
+
+    @PostMapping("/address")
     public ResponseEntity<AddressDTO> creatAddress(@Valid @RequestBody AddressDTO addressDTO){
         User user = authUtil.loggedInUser();
         AddressDTO creatAddressDTO = addressService.creatAddress(addressDTO,user);

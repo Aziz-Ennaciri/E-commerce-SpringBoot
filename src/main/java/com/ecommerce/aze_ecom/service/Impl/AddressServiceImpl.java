@@ -49,4 +49,16 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressRepository.findById(addressId).orElseThrow(()->new ResourceNotFoundException("Address","addressId",addressId));
         return addressMapper.toDto(address);
     }
+
+    @Override
+    public List<AddressDTO> getUserAddress(User user) {
+        List<Address> addresses = user.getAddresses();
+        if (addresses.isEmpty()){
+            throw new APIException("User has no Address");
+        }
+        return addresses.stream()
+                .map(addressMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }
