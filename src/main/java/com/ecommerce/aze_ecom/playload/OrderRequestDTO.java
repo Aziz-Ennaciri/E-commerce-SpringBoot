@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderRequestDTO {
     private Long addressId;
     private String paymentMethod;
+    private String pgName;
     private String pgPaymentId;
     private String pgStatus;
     private String pgResponseMessage;
