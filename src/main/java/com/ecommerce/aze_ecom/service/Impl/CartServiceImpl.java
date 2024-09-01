@@ -86,7 +86,7 @@ public class CartServiceImpl implements CartService {
         if (carts.isEmpty()) {
             throw new APIException("No Cart exists");
         }
-
+        // update this to get exact amount of quantity in each product
         List<CartDTO> cartDTOs = carts.stream().map(cart -> {
             CartDTO cartDTO = cartMapper.toCartDTO(cart);
 
