@@ -28,10 +28,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO creatAddress(AddressDTO addressDTO, User user) {
         Address address = addressMapper.toEntity(addressDTO);
+        address.setUser(user);
         List<Address> addresses = user.getAddresses();
         addresses.add(address);
         user.setAddresses(addresses);
-        address.setUser(user);
         Address savedAddress = addressRepository.save(address);
     return addressMapper.toDto(savedAddress);
     }
