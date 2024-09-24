@@ -1,7 +1,7 @@
 package com.ecommerce.aze_ecom.mappers;
 
 import com.ecommerce.aze_ecom.beans.Payment;
-import com.ecommerce.aze_ecom.playload.PaymentDTO;
+import com.ecommerce.aze_ecom.DTOs.PaymentDTO;
 import org.springframework.stereotype.Component;
 
 @Component

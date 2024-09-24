@@ -2,7 +2,7 @@ package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.Util.AuthUtil;
 import com.ecommerce.aze_ecom.beans.User;
-import com.ecommerce.aze_ecom.playload.AddressDTO;
+import com.ecommerce.aze_ecom.DTOs.AddressDTO;
 import com.ecommerce.aze_ecom.service.Interf.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

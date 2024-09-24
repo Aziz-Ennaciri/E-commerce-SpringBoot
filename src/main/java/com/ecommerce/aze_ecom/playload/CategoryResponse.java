@@ -1,5 +1,6 @@
 package com.ecommerce.aze_ecom.playload;
 
+import com.ecommerce.aze_ecom.DTOs.CategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

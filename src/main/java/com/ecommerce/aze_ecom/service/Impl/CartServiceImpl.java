@@ -8,8 +8,8 @@ import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.CartMapper;
 import com.ecommerce.aze_ecom.mappers.ProductMapper;
-import com.ecommerce.aze_ecom.playload.CartDTO;
-import com.ecommerce.aze_ecom.playload.ProductDTO;
+import com.ecommerce.aze_ecom.DTOs.CartDTO;
+import com.ecommerce.aze_ecom.DTOs.ProductDTO;
 import com.ecommerce.aze_ecom.repositories.CartItemRepository;
 import com.ecommerce.aze_ecom.repositories.CartRepository;
 import com.ecommerce.aze_ecom.repositories.ProductRepository;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class CartServiceImpl implements CartService {

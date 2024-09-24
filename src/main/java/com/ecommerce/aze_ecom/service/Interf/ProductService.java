@@ -1,6 +1,6 @@
 package com.ecommerce.aze_ecom.service.Interf;
 
-import com.ecommerce.aze_ecom.playload.ProductDTO;
+import com.ecommerce.aze_ecom.DTOs.ProductDTO;
 import com.ecommerce.aze_ecom.playload.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
 

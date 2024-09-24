@@ -1,6 +1,6 @@
 package com.ecommerce.aze_ecom.service.Interf;
 
-import com.ecommerce.aze_ecom.playload.CartDTO;
+import com.ecommerce.aze_ecom.DTOs.CartDTO;
 
 import java.util.List;
 

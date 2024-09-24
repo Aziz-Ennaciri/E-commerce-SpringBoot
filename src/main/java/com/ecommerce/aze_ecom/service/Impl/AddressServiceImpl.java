@@ -5,7 +5,7 @@ import com.ecommerce.aze_ecom.beans.User;
 import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.AddressMapper;
-import com.ecommerce.aze_ecom.playload.AddressDTO;
+import com.ecommerce.aze_ecom.DTOs.AddressDTO;
 import com.ecommerce.aze_ecom.repositories.AddressRepository;
 import com.ecommerce.aze_ecom.repositories.UserRepository;
 import com.ecommerce.aze_ecom.service.Interf.AddressService;

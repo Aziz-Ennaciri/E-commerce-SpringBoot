@@ -1,8 +1,8 @@
 package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.Util.AuthUtil;
-import com.ecommerce.aze_ecom.playload.OrderDTO;
-import com.ecommerce.aze_ecom.playload.OrderRequestDTO;
+import com.ecommerce.aze_ecom.DTOs.OrderDTO;
+import com.ecommerce.aze_ecom.DTOs.OrderRequestDTO;
 import com.ecommerce.aze_ecom.service.Interf.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

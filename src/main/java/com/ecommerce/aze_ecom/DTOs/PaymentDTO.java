@@ -1,4 +1,4 @@
-package com.ecommerce.aze_ecom.playload;
+package com.ecommerce.aze_ecom.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

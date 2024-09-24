@@ -1,7 +1,7 @@
 package com.ecommerce.aze_ecom.service.Interf;
 
 import com.ecommerce.aze_ecom.beans.User;
-import com.ecommerce.aze_ecom.playload.AddressDTO;
+import com.ecommerce.aze_ecom.DTOs.AddressDTO;
 
 import java.util.List;
 

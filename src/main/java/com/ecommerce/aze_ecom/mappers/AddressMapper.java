@@ -1,7 +1,7 @@
 package com.ecommerce.aze_ecom.mappers;
 
 import com.ecommerce.aze_ecom.beans.Address;
-import com.ecommerce.aze_ecom.playload.AddressDTO;
+import com.ecommerce.aze_ecom.DTOs.AddressDTO;
 import org.springframework.stereotype.Component;
 
 @Component

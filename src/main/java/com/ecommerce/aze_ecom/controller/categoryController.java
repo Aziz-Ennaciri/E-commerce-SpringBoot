@@ -1,7 +1,7 @@
 package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.config.AppConstants;
-import com.ecommerce.aze_ecom.playload.CategoryDTO;
+import com.ecommerce.aze_ecom.DTOs.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Impl.CategoryServiceImpl;
 import jakarta.validation.Valid;

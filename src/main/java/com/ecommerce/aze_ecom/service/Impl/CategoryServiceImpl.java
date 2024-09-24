@@ -5,7 +5,7 @@ import com.ecommerce.aze_ecom.repositories.CategoryRepository;
 import com.ecommerce.aze_ecom.exceptions.APIException;
 import com.ecommerce.aze_ecom.exceptions.ResourceNotFoundException;
 import com.ecommerce.aze_ecom.mappers.CategoryMapper;
-import com.ecommerce.aze_ecom.playload.CategoryDTO;
+import com.ecommerce.aze_ecom.DTOs.CategoryDTO;
 import com.ecommerce.aze_ecom.playload.CategoryResponse;
 import com.ecommerce.aze_ecom.service.Interf.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

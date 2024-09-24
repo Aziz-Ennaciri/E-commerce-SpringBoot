@@ -2,7 +2,7 @@ package com.ecommerce.aze_ecom.controller;
 
 import com.ecommerce.aze_ecom.Util.AuthUtil;
 import com.ecommerce.aze_ecom.beans.Cart;
-import com.ecommerce.aze_ecom.playload.CartDTO;
+import com.ecommerce.aze_ecom.DTOs.CartDTO;
 import com.ecommerce.aze_ecom.repositories.CartRepository;
 import com.ecommerce.aze_ecom.service.Interf.CartService;
 import org.springframework.beans.factory.annotation.Autowired;

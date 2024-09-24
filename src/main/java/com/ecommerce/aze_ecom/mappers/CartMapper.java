@@ -2,8 +2,8 @@ package com.ecommerce.aze_ecom.mappers;
 
 import com.ecommerce.aze_ecom.beans.Cart;
 import com.ecommerce.aze_ecom.beans.CartItem;
-import com.ecommerce.aze_ecom.playload.CartDTO;
-import com.ecommerce.aze_ecom.playload.ProductDTO;
+import com.ecommerce.aze_ecom.DTOs.CartDTO;
+import com.ecommerce.aze_ecom.DTOs.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

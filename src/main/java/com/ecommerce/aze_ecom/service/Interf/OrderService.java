@@ -1,6 +1,6 @@
 package com.ecommerce.aze_ecom.service.Interf;
 
-import com.ecommerce.aze_ecom.playload.OrderDTO;
+import com.ecommerce.aze_ecom.DTOs.OrderDTO;
 import jakarta.transaction.Transactional;
 
 public interface OrderService {

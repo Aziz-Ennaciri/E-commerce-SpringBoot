@@ -2,7 +2,7 @@ package com.ecommerce.aze_ecom.mappers;
 
 
 import com.ecommerce.aze_ecom.beans.OrderItem;
-import com.ecommerce.aze_ecom.playload.OrderItemDTO;
+import com.ecommerce.aze_ecom.DTOs.OrderItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

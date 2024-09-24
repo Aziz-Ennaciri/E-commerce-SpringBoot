@@ -1,7 +1,7 @@
 package com.ecommerce.aze_ecom.mappers;
 
 import com.ecommerce.aze_ecom.beans.Product;
-import com.ecommerce.aze_ecom.playload.ProductDTO;
+import com.ecommerce.aze_ecom.DTOs.ProductDTO;
 import org.springframework.stereotype.Service;
 
 @Service
